@@ -1,7 +1,11 @@
+import os
 import sqlite3
 from pathlib import Path
 
-DB_FILE = Path(__file__).parent / "database.db"
+# 優先讀取環境變數 DATA_DIR，無設定時預設為 backend 同層目錄（相容本機非容器執行）
+DATA_DIR = Path(os.getenv("DATA_DIR", Path(__file__).parent))
+DATA_DIR.mkdir(parents=True, exist_ok=True)
+DB_FILE = DATA_DIR / "database.db"
 
 def get_db_connection():
     """取得資料庫連線並啟用 Row 字典格式存取"""
@@ -28,7 +32,6 @@ def init_db():
         cursor.execute("CREATE INDEX IF NOT EXISTS idx_part ON toeic_error_logs(part);")
         cursor.execute("CREATE INDEX IF NOT EXISTS idx_created_at ON toeic_error_logs(created_at);")
 
-        # 自動校準：將資料庫中未標註 (UTC+8) 的舊 UTC 紀錄加上 8 小時並標記，確保歷史資料一致
         cursor.execute("""
             UPDATE toeic_error_logs
             SET created_at = datetime(created_at, '+8 hours') || ' (UTC+8)'

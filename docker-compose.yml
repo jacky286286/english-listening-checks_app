@@ -1,0 +1,13 @@
+services:
+  toeic-app:
+    build: .
+    container_name: toeic-review-app
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    volumes:
+      # 將容器內的 /app/data 映射至本機 ./data 目錄，確保錯題資料永久保存
+      - ./data:/app/data
+    environment:
+      - TZ=Asia/Taipei
+      - DATA_DIR=/app/data
