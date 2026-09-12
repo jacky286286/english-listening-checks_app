@@ -43,6 +43,9 @@
         }
 
         header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             padding-bottom: 8px;
             border-bottom: 2px solid var(--border);
         }
@@ -50,6 +53,21 @@
         header h1 {
             font-size: 1.15rem;
             font-weight: 700;
+        }
+
+        .btn-export {
+            padding: 6px 12px;
+            background: #0f172a;
+            color: #fff;
+            border: none;
+            border-radius: var(--radius);
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .btn-export:hover {
+            background: #334155;
         }
 
         .card {
@@ -100,16 +118,17 @@
         .btn-select.active[data-val="B"] { border-color: var(--badge-b); color: var(--badge-b); background: #fffbeb; }
         .btn-select.active[data-val="C"] { border-color: var(--badge-c); color: var(--badge-c); background: #eef2ff; }
 
-        input[type="text"] {
+        input[type="text"], input[type="date"] {
             width: 100%;
             padding: 8px 10px;
             font-size: 0.9rem;
             border: 1px solid var(--border);
             border-radius: var(--radius);
             outline: none;
+            background: #fff;
         }
 
-        input[type="text"]:focus {
+        input[type="text"]:focus, input[type="date"]:focus {
             border-color: var(--primary);
         }
 
@@ -126,7 +145,62 @@
             margin-top: 4px;
         }
 
-        .filter-bar {
+        /* 篩選工具列 */
+        .filter-section {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .date-range-container {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 10px 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .date-inputs {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .date-field {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .date-field span {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        .date-actions {
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .btn-clear-date {
+            padding: 4px 10px;
+            font-size: 0.75rem;
+            border: 1px solid var(--border);
+            background: var(--bg);
+            border-radius: var(--radius);
+            cursor: pointer;
+            color: var(--text-muted);
+        }
+
+        .btn-clear-date:hover {
+            color: var(--text-main);
+        }
+
+        .filter-tags-bar {
             display: flex;
             gap: 6px;
             overflow-x: auto;
@@ -134,13 +208,14 @@
         }
 
         .filter-tag {
-            padding: 3px 8px;
+            padding: 4px 9px;
             font-size: 0.75rem;
             border-radius: 999px;
             border: 1px solid var(--border);
             background: var(--surface);
             cursor: pointer;
             white-space: nowrap;
+            color: var(--text-muted);
         }
 
         .filter-tag.active {
@@ -149,6 +224,7 @@
             border-color: var(--text-main);
         }
 
+        /* 紀錄項目 */
         .log-item {
             background: var(--surface);
             border: 1px solid var(--border);
@@ -170,6 +246,7 @@
             display: flex;
             gap: 6px;
             align-items: center;
+            flex-wrap: wrap;
         }
 
         .badge {
@@ -183,6 +260,11 @@
         .badge-b { background: #fffbeb; color: var(--badge-b); }
         .badge-c { background: #eef2ff; color: var(--badge-c); }
         .badge-part { background: #f1f5f9; color: var(--text-muted); }
+
+        .time-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
 
         .btn-del {
             border: none;
@@ -236,6 +318,7 @@
 <div class="container">
     <header>
         <h1>多益聽力極簡檢討庫</h1>
+        <button id="btn-export-md" class="btn-export">匯出 Markdown</button>
     </header>
 
     <section class="card">
@@ -278,13 +361,31 @@
         </form>
     </section>
 
-    <div class="filter-bar">
-        <button class="filter-tag active" data-filter="ALL">全部顯示</button>
-        <button class="filter-tag" data-filter="A">A 聲音盲點</button>
-        <button class="filter-tag" data-filter="B">B 轉譯延遲</button>
-        <button class="filter-tag" data-filter="C">C 節奏失誤</button>
-        <button class="filter-tag" data-filter="Part 3">Part 3</button>
-        <button class="filter-tag" data-filter="Part 4">Part 4</button>
+    <div class="filter-section">
+        <div class="date-range-container">
+            <div class="date-inputs">
+                <div class="date-field">
+                    <span>起始日期 (台灣時間)</span>
+                    <input type="date" id="start-date-filter">
+                </div>
+                <div class="date-field">
+                    <span>結束日期 (台灣時間)</span>
+                    <input type="date" id="end-date-filter">
+                </div>
+            </div>
+            <div class="date-actions">
+                <button type="button" id="btn-clear-date" class="btn-clear-date">清除日期範圍</button>
+            </div>
+        </div>
+
+        <div class="filter-tags-bar">
+            <button class="filter-tag active" data-filter="ALL">全部顯示</button>
+            <button class="filter-tag" data-filter="A">A 聲音盲點</button>
+            <button class="filter-tag" data-filter="B">B 轉譯延遲</button>
+            <button class="filter-tag" data-filter="C">C 節奏失誤</button>
+            <button class="filter-tag" data-filter="Part 3">Part 3</button>
+            <button class="filter-tag" data-filter="Part 4">Part 4</button>
+        </div>
     </div>
 
     <section id="logs-container">
@@ -297,7 +398,9 @@
 
     let selectedPart = 'Part 3';
     let selectedType = 'A';
-    let currentFilter = 'ALL';
+    let currentFilterTag = 'ALL';
+    let startDateFilter = '';
+    let endDateFilter = '';
     let logs = [];
 
     const form = document.getElementById('review-form');
@@ -305,6 +408,10 @@
     const partButtons = document.querySelectorAll('#part-selector .btn-select');
     const typeButtons = document.querySelectorAll('#type-selector .btn-select');
     const filterTags = document.querySelectorAll('.filter-tag');
+    const startDateInput = document.getElementById('start-date-filter');
+    const endDateInput = document.getElementById('end-date-filter');
+    const btnClearDate = document.getElementById('btn-clear-date');
+    const btnExportMd = document.getElementById('btn-export-md');
 
     partButtons.forEach(btn => {
         btn.addEventListener('click', () => {
@@ -326,9 +433,27 @@
         btn.addEventListener('click', () => {
             filterTags.forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
-            currentFilter = btn.dataset.filter;
+            currentFilterTag = btn.dataset.filter;
             renderLogs();
         });
+    });
+
+    startDateInput.addEventListener('change', (e) => {
+        startDateFilter = e.target.value;
+        renderLogs();
+    });
+
+    endDateInput.addEventListener('change', (e) => {
+        endDateFilter = e.target.value;
+        renderLogs();
+    });
+
+    btnClearDate.addEventListener('click', () => {
+        startDateInput.value = '';
+        endDateInput.value = '';
+        startDateFilter = '';
+        endDateFilter = '';
+        renderLogs();
     });
 
     async function fetchLogs() {
@@ -338,7 +463,7 @@
             logs = await res.json();
             renderLogs();
         } catch (err) {
-            logsContainer.innerHTML = '<div class="empty-hint">無法連線至後端伺服器</div>';
+            logsContainer.innerHTML = '<div class="empty-hint">無法連線至伺服器</div>';
         }
     }
 
@@ -371,7 +496,7 @@
             fixInput.value = '';
             renderLogs();
         } catch (err) {
-            alert('儲存失敗，請檢查後端服務狀態。');
+            alert('儲存失敗，請確認後端連線狀態。');
         }
     });
 
@@ -386,16 +511,34 @@
         }
     }
 
+    function getFilteredLogs() {
+        return logs.filter(item => {
+            let matchesTag = true;
+            if (currentFilterTag === 'A' || currentFilterTag === 'B' || currentFilterTag === 'C') {
+                matchesTag = (item.error_type === currentFilterTag);
+            } else if (currentFilterTag.startsWith('Part')) {
+                matchesTag = (item.part === currentFilterTag);
+            }
+
+            let matchesDate = true;
+            const itemDate = item.created_at ? item.created_at.substring(0, 10) : '';
+
+            if (startDateFilter && itemDate < startDateFilter) {
+                matchesDate = false;
+            }
+            if (endDateFilter && itemDate > endDateFilter) {
+                matchesDate = false;
+            }
+
+            return matchesTag && matchesDate;
+        });
+    }
+
     function renderLogs() {
-        let filtered = logs;
-        if (currentFilter === 'A' || currentFilter === 'B' || currentFilter === 'C') {
-            filtered = logs.filter(item => item.error_type === currentFilter);
-        } else if (currentFilter.startsWith('Part')) {
-            filtered = logs.filter(item => item.part === currentFilter);
-        }
+        const filtered = getFilteredLogs();
 
         if (filtered.length === 0) {
-            logsContainer.innerHTML = '<div class="empty-hint">暫無符合條件的記錄</div>';
+            logsContainer.innerHTML = '<div class="empty-hint">暫無符合區間或條件的記錄</div>';
             return;
         }
 
@@ -410,6 +553,7 @@
                             <span class="badge badge-part">${item.part}</span>
                             <span class="badge ${badgeClass}">${item.error_type} ${typeLabel}</span>
                             <span style="font-size: 0.8rem; font-weight: 600;">${item.context_info}</span>
+                            <span class="time-label">${item.created_at}</span>
                         </div>
                         <button class="btn-del" onclick="deleteLog(${item.id})">刪除</button>
                     </div>
@@ -427,6 +571,53 @@
             `;
         }).join('');
     }
+
+    btnExportMd.addEventListener('click', () => {
+        const targetLogs = getFilteredLogs();
+        if (targetLogs.length === 0) {
+            alert('目前無可匯出的記錄。');
+            return;
+        }
+
+        const now = new Date();
+        const exportTimeStr = now.toLocaleString('zh-TW', { timeZone: 'Asia/Taipei', hour12: false });
+        
+        let rangeDesc = '全部區間';
+        if (startDateFilter && endDateFilter) {
+            rangeDesc = `${startDateFilter} 至 ${endDateFilter}`;
+        } else if (startDateFilter) {
+            rangeDesc = `${startDateFilter} 起`;
+        } else if (endDateFilter) {
+            rangeDesc = `至 ${endDateFilter} 止`;
+        }
+
+        let md = `# 多益聽力錯題檢討紀錄\n\n`;
+        md += `- 匯出時間：${exportTimeStr} (UTC+8)\n`;
+        md += `- 篩選日期區間：${rangeDesc}\n`;
+        md += `- 總筆數：共 ${targetLogs.length} 筆\n\n`;
+        md += `| 建立時間 | 題型 | 錯誤類型 | 題號/情境 | 聽力阻礙點 | 正確替換 / 盲點修正 |\n`;
+        md += `| :--- | :--- | :--- | :--- | :--- | :--- |\n`;
+
+        targetLogs.forEach(item => {
+            const typeLabel = item.error_type === 'A' ? 'A 聲音盲點' : (item.error_type === 'B' ? 'B 轉譯延遲' : 'C 節奏失誤');
+            const cleanContext = item.context_info.replace(/\|/g, '\\|');
+            const cleanObstacle = item.obstacle_point.replace(/\|/g, '\\|');
+            const cleanFix = item.correction_fix.replace(/\|/g, '\\|');
+            md += `| ${item.created_at || '-'} | ${item.part} | ${typeLabel} | ${cleanContext} | ${cleanObstacle} | ${cleanFix} |\n`;
+        });
+
+        const blob = new Blob([md], { type: 'text/markdown;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        
+        const fileDate = exportTimeStr.split(' ')[0].replace(/\//g, '-');
+        a.href = url;
+        a.download = `toeic_review_${fileDate}.md`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    });
 
     fetchLogs();
 </script>
