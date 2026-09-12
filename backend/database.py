@@ -1,7 +1,7 @@
 import sqlite3
 from pathlib import Path
 
-DB_FILE = Path(__file__).parent / "toeic_review.db"
+DB_FILE = Path(__file__).parent / "database.db"
 
 def get_db_connection():
     """取得資料庫連線並啟用 Row 字典格式存取"""
