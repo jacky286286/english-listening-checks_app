@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>多益聽力極簡檢討庫</title>
+    <style>
+        :root {
+            --bg: #f8fafc;
+            --surface: #ffffff;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --primary: #2563eb;
+            --primary-bg: #eff6ff;
+            --badge-a: #dc2626;
+            --badge-b: #d97706;
+            --badge-c: #4f46e5;
+            --radius: 6px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            padding: 16px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 680px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        header {
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--border);
+        }
+
+        header h1 {
+            font-size: 1.15rem;
+            font-weight: 700;
+        }
+
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 10px;
+        }
+
+        label {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .btn-select {
+            flex: 1;
+            min-width: 60px;
+            padding: 6px 10px;
+            font-size: 0.8rem;
+            border: 1px solid var(--border);
+            background: var(--surface);
+            border-radius: var(--radius);
+            cursor: pointer;
+            color: var(--text-muted);
+        }
+
+        .btn-select.active {
+            border-color: var(--primary);
+            background: var(--primary-bg);
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .btn-select.active[data-val="A"] { border-color: var(--badge-a); color: var(--badge-a); background: #fef2f2; }
+        .btn-select.active[data-val="B"] { border-color: var(--badge-b); color: var(--badge-b); background: #fffbeb; }
+        .btn-select.active[data-val="C"] { border-color: var(--badge-c); color: var(--badge-c); background: #eef2ff; }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 8px 10px;
+            font-size: 0.9rem;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            outline: none;
+        }
+
+        input[type="text"]:focus {
+            border-color: var(--primary);
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 9px;
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            border-radius: var(--radius);
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 4px;
+        }
+
+        .filter-bar {
+            display: flex;
+            gap: 6px;
+            overflow-x: auto;
+            padding-bottom: 2px;
+        }
+
+        .filter-tag {
+            padding: 3px 8px;
+            font-size: 0.75rem;
+            border-radius: 999px;
+            border: 1px solid var(--border);
+            background: var(--surface);
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .filter-tag.active {
+            background: var(--text-main);
+            color: #fff;
+            border-color: var(--text-main);
+        }
+
+        .log-item {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 10px 12px;
+            margin-bottom: 8px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .log-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .log-tags {
+            display: flex;
+            gap: 6px;
+            align-items: center;
+        }
+
+        .badge {
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 2px 5px;
+            border-radius: 4px;
+        }
+
+        .badge-a { background: #fef2f2; color: var(--badge-a); }
+        .badge-b { background: #fffbeb; color: var(--badge-b); }
+        .badge-c { background: #eef2ff; color: var(--badge-c); }
+        .badge-part { background: #f1f5f9; color: var(--text-muted); }
+
+        .btn-del {
+            border: none;
+            background: none;
+            color: #94a3b8;
+            cursor: pointer;
+            font-size: 0.75rem;
+        }
+
+        .btn-del:hover {
+            color: #ef4444;
+        }
+
+        .log-content {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 6px;
+        }
+
+        @media (min-width: 550px) {
+            .log-content {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .content-box {
+            padding: 6px 8px;
+            background: var(--bg);
+            border-radius: 4px;
+            font-size: 0.85rem;
+            word-break: break-word;
+        }
+
+        .content-box strong {
+            display: block;
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            margin-bottom: 2px;
+        }
+
+        .empty-hint {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>多益聽力極簡檢討庫</h1>
+    </header>
+
+    <section class="card">
+        <form id="review-form">
+            <div class="form-group">
+                <label>題型 (Part)</label>
+                <div class="btn-group" id="part-selector">
+                    <button type="button" class="btn-select" data-val="Part 1">Part 1</button>
+                    <button type="button" class="btn-select" data-val="Part 2">Part 2</button>
+                    <button type="button" class="btn-select active" data-val="Part 3">Part 3</button>
+                    <button type="button" class="btn-select" data-val="Part 4">Part 4</button>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>錯誤類型 (3秒判定)</label>
+                <div class="btn-group" id="type-selector">
+                    <button type="button" class="btn-select active" data-val="A">A 聲音盲點</button>
+                    <button type="button" class="btn-select" data-val="B">B 轉譯延遲</button>
+                    <button type="button" class="btn-select" data-val="C">C 節奏失誤</button>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="context-input">題號 / 情境</label>
+                <input type="text" id="context-input" placeholder="例：Q32-34 辦公室設備故障" required>
+            </div>
+
+            <div class="form-group">
+                <label for="obstacle-input">聽力阻礙點 (原音 / 混淆處)</label>
+                <input type="text" id="obstacle-input" placeholder="例：copier's jammed (連音弱讀沒聽出)" required>
+            </div>
+
+            <div class="form-group">
+                <label for="fix-input">正確替換 / 盲點修正</label>
+                <input type="text" id="fix-input" placeholder="例：malfunction (影印機故障)" required>
+            </div>
+
+            <button type="submit" class="btn-submit">一鍵儲存記錄</button>
+        </form>
+    </section>
+
+    <div class="filter-bar">
+        <button class="filter-tag active" data-filter="ALL">全部顯示</button>
+        <button class="filter-tag" data-filter="A">A 聲音盲點</button>
+        <button class="filter-tag" data-filter="B">B 轉譯延遲</button>
+        <button class="filter-tag" data-filter="C">C 節奏失誤</button>
+        <button class="filter-tag" data-filter="Part 3">Part 3</button>
+        <button class="filter-tag" data-filter="Part 4">Part 4</button>
+    </div>
+
+    <section id="logs-container">
+        <div class="empty-hint">讀取中...</div>
+    </section>
+</div>
+
+<script>
+    const API_BASE = window.location.origin.includes('http') ? '' : 'http://127.0.0.1:8000';
+
+    let selectedPart = 'Part 3';
+    let selectedType = 'A';
+    let currentFilter = 'ALL';
+    let logs = [];
+
+    const form = document.getElementById('review-form');
+    const logsContainer = document.getElementById('logs-container');
+    const partButtons = document.querySelectorAll('#part-selector .btn-select');
+    const typeButtons = document.querySelectorAll('#type-selector .btn-select');
+    const filterTags = document.querySelectorAll('.filter-tag');
+
+    partButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            partButtons.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            selectedPart = btn.dataset.val;
+        });
+    });
+
+    typeButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            typeButtons.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            selectedType = btn.dataset.val;
+        });
+    });
+
+    filterTags.forEach(btn => {
+        btn.addEventListener('click', () => {
+            filterTags.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            currentFilter = btn.dataset.filter;
+            renderLogs();
+        });
+    });
+
+    async function fetchLogs() {
+        try {
+            const res = await fetch(`${API_BASE}/api/logs`);
+            if (!res.ok) throw new Error();
+            logs = await res.json();
+            renderLogs();
+        } catch (err) {
+            logsContainer.innerHTML = '<div class="empty-hint">無法連線至後端伺服器</div>';
+        }
+    }
+
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const contextInput = document.getElementById('context-input');
+        const obstacleInput = document.getElementById('obstacle-input');
+        const fixInput = document.getElementById('fix-input');
+
+        const payload = {
+            part: selectedPart,
+            error_type: selectedType,
+            context_info: contextInput.value.trim(),
+            obstacle_point: obstacleInput.value.trim(),
+            correction_fix: fixInput.value.trim()
+        };
+
+        try {
+            const res = await fetch(`${API_BASE}/api/logs`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+            if (!res.ok) throw new Error();
+            const savedItem = await res.json();
+            logs.unshift(savedItem);
+
+            contextInput.value = '';
+            obstacleInput.value = '';
+            fixInput.value = '';
+            renderLogs();
+        } catch (err) {
+            alert('儲存失敗，請檢查後端服務狀態。');
+        }
+    });
+
+    async function deleteLog(id) {
+        try {
+            const res = await fetch(`${API_BASE}/api/logs/${id}`, { method: 'DELETE' });
+            if (!res.ok) throw new Error();
+            logs = logs.filter(item => item.id !== id);
+            renderLogs();
+        } catch (err) {
+            alert('刪除失敗。');
+        }
+    }
+
+    function renderLogs() {
+        let filtered = logs;
+        if (currentFilter === 'A' || currentFilter === 'B' || currentFilter === 'C') {
+            filtered = logs.filter(item => item.error_type === currentFilter);
+        } else if (currentFilter.startsWith('Part')) {
+            filtered = logs.filter(item => item.part === currentFilter);
+        }
+
+        if (filtered.length === 0) {
+            logsContainer.innerHTML = '<div class="empty-hint">暫無符合條件的記錄</div>';
+            return;
+        }
+
+        logsContainer.innerHTML = filtered.map(item => {
+            const badgeClass = item.error_type === 'A' ? 'badge-a' : (item.error_type === 'B' ? 'badge-b' : 'badge-c');
+            const typeLabel = item.error_type === 'A' ? '聲音盲點' : (item.error_type === 'B' ? '轉譯延遲' : '節奏失誤');
+
+            return `
+                <div class="log-item">
+                    <div class="log-header">
+                        <div class="log-tags">
+                            <span class="badge badge-part">${item.part}</span>
+                            <span class="badge ${badgeClass}">${item.error_type} ${typeLabel}</span>
+                            <span style="font-size: 0.8rem; font-weight: 600;">${item.context_info}</span>
+                        </div>
+                        <button class="btn-del" onclick="deleteLog(${item.id})">刪除</button>
+                    </div>
+                    <div class="log-content">
+                        <div class="content-box">
+                            <strong>聽力阻礙點</strong>
+                            ${item.obstacle_point}
+                        </div>
+                        <div class="content-box">
+                            <strong>正確替換 / 盲點修正</strong>
+                            ${item.correction_fix}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }).join('');
+    }
+
+    fetchLogs();
+</script>
+</body>
+</html>
