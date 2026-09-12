@@ -16,7 +16,7 @@
             --badge-a: #dc2626;
             --badge-b: #d97706;
             --badge-c: #4f46e5;
-            --radius: 6px;
+            --radius: 8px;
         }
 
         * {
@@ -29,14 +29,15 @@
         body {
             background-color: var(--bg);
             color: var(--text-main);
-            padding: 16px;
+            padding: 12px;
             display: flex;
             justify-content: center;
+            line-height: 1.5;
         }
 
         .container {
             width: 100%;
-            max-width: 680px;
+            max-width: 1240px;
             display: flex;
             flex-direction: column;
             gap: 16px;
@@ -46,47 +47,87 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding-bottom: 8px;
+            padding-bottom: 12px;
             border-bottom: 2px solid var(--border);
         }
 
         header h1 {
-            font-size: 1.15rem;
+            font-size: 1.25rem;
             font-weight: 700;
         }
 
         .btn-export {
-            padding: 6px 12px;
+            padding: 8px 14px;
             background: #0f172a;
             color: #fff;
             border: none;
             border-radius: var(--radius);
-            font-size: 0.8rem;
+            font-size: 0.85rem;
             font-weight: 600;
             cursor: pointer;
+            transition: background 0.15s ease;
         }
 
         .btn-export:hover {
             background: #334155;
         }
 
+        .main-layout {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        @media (min-width: 900px) {
+            body {
+                padding: 24px;
+            }
+            .main-layout {
+                display: grid;
+                grid-template-columns: 380px 1fr;
+                gap: 24px;
+                align-items: start;
+            }
+            .left-panel {
+                position: sticky;
+                top: 20px;
+            }
+        }
+
+        .right-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
         .card {
             background: var(--surface);
             border: 1px solid var(--border);
             border-radius: var(--radius);
-            padding: 14px;
+            padding: 16px;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
         }
 
         .form-group {
-            margin-bottom: 10px;
+            margin-bottom: 12px;
+        }
+
+        .label-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6px;
         }
 
         label {
-            display: block;
             font-size: 0.8rem;
             font-weight: 600;
             color: var(--text-muted);
-            margin-bottom: 4px;
+        }
+
+        .char-counter {
+            font-size: 0.75rem;
+            color: var(--text-muted);
         }
 
         .btn-group {
@@ -98,20 +139,22 @@
         .btn-select {
             flex: 1;
             min-width: 60px;
+            min-height: 38px;
             padding: 6px 10px;
-            font-size: 0.8rem;
+            font-size: 0.85rem;
             border: 1px solid var(--border);
             background: var(--surface);
             border-radius: var(--radius);
             cursor: pointer;
             color: var(--text-muted);
+            transition: all 0.15s ease;
         }
 
         .btn-select.active {
             border-color: var(--primary);
             background: var(--primary-bg);
             color: var(--primary);
-            font-weight: 600;
+            font-weight: 700;
         }
 
         .btn-select.active[data-val="A"] { border-color: var(--badge-a); color: var(--badge-a); background: #fef2f2; }
@@ -120,12 +163,21 @@
 
         input[type="text"], input[type="date"] {
             width: 100%;
-            padding: 8px 10px;
-            font-size: 0.9rem;
+            min-height: 40px;
+            padding: 8px 12px;
+            font-size: 16px;
             border: 1px solid var(--border);
             border-radius: var(--radius);
             outline: none;
             background: #fff;
+            color: var(--text-main);
+        }
+
+        @media (min-width: 900px) {
+            input[type="text"], input[type="date"] {
+                font-size: 0.9rem;
+                min-height: 36px;
+            }
         }
 
         input[type="text"]:focus, input[type="date"]:focus {
@@ -134,15 +186,20 @@
 
         .btn-submit {
             width: 100%;
-            padding: 9px;
+            min-height: 42px;
+            padding: 10px;
             background: var(--primary);
             color: #fff;
             border: none;
             border-radius: var(--radius);
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             font-weight: 600;
             cursor: pointer;
             margin-top: 4px;
+        }
+
+        .btn-submit:hover {
+            opacity: 0.92;
         }
 
         /* 篩選工具列 */
@@ -156,7 +213,7 @@
             background: var(--surface);
             border: 1px solid var(--border);
             border-radius: var(--radius);
-            padding: 10px 12px;
+            padding: 12px;
             display: flex;
             flex-direction: column;
             gap: 8px;
@@ -165,18 +222,18 @@
         .date-inputs {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 8px;
+            gap: 10px;
             align-items: center;
         }
 
         .date-field {
             display: flex;
             flex-direction: column;
-            gap: 2px;
+            gap: 4px;
         }
 
         .date-field span {
-            font-size: 0.7rem;
+            font-size: 0.75rem;
             color: var(--text-muted);
             font-weight: 600;
         }
@@ -187,7 +244,7 @@
         }
 
         .btn-clear-date {
-            padding: 4px 10px;
+            padding: 6px 12px;
             font-size: 0.75rem;
             border: 1px solid var(--border);
             background: var(--bg);
@@ -196,20 +253,16 @@
             color: var(--text-muted);
         }
 
-        .btn-clear-date:hover {
-            color: var(--text-main);
-        }
-
         .filter-tags-bar {
             display: flex;
             gap: 6px;
             overflow-x: auto;
-            padding-bottom: 2px;
+            padding-bottom: 4px;
         }
 
         .filter-tag {
-            padding: 4px 9px;
-            font-size: 0.75rem;
+            padding: 6px 12px;
+            font-size: 0.8rem;
             border-radius: 999px;
             border: 1px solid var(--border);
             background: var(--surface);
@@ -222,37 +275,42 @@
             background: var(--text-main);
             color: #fff;
             border-color: var(--text-main);
+            font-weight: 600;
         }
 
-        /* 紀錄項目 */
+        /* 記錄卡片排版與錨定 */
         .log-item {
             background: var(--surface);
             border: 1px solid var(--border);
             border-radius: var(--radius);
-            padding: 10px 12px;
-            margin-bottom: 8px;
+            padding: 12px 14px;
+            margin-bottom: 10px;
             display: flex;
             flex-direction: column;
-            gap: 6px;
+            gap: 8px;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
         }
 
-        .log-header {
+        /* 頂部固定錨定行：標籤置左、時間與刪除按鈕置右 */
+        .log-topbar {
             display: flex;
-            align-items: center;
             justify-content: space-between;
+            align-items: center;
+            gap: 8px;
+            width: 100%;
         }
 
-        .log-tags {
+        .log-badges {
             display: flex;
             gap: 6px;
             align-items: center;
-            flex-wrap: wrap;
+            flex-shrink: 0;
         }
 
         .badge {
-            font-size: 0.7rem;
-            font-weight: 600;
-            padding: 2px 5px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 2px 6px;
             border-radius: 4px;
         }
 
@@ -261,9 +319,17 @@
         .badge-c { background: #eef2ff; color: var(--badge-c); }
         .badge-part { background: #f1f5f9; color: var(--text-muted); }
 
+        .log-meta {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-shrink: 0;
+        }
+
         .time-label {
-            font-size: 0.75rem;
+            font-size: 0.72rem;
             color: var(--text-muted);
+            white-space: nowrap;
         }
 
         .btn-del {
@@ -272,44 +338,91 @@
             color: #94a3b8;
             cursor: pointer;
             font-size: 0.75rem;
+            padding: 2px 4px;
         }
 
         .btn-del:hover {
             color: #ef4444;
         }
 
+        /* 題號情境列：獨立佔行，支援展開 */
+        .log-title {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--text-main);
+            word-break: break-word;
+            cursor: pointer;
+        }
+
+        .log-title.clamped {
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 1;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* 阻礙點與修正內容排版 */
         .log-content {
             display: grid;
             grid-template-columns: 1fr;
-            gap: 6px;
+            gap: 8px;
         }
 
-        @media (min-width: 550px) {
+        @media (min-width: 600px) {
             .log-content {
                 grid-template-columns: 1fr 1fr;
             }
         }
 
         .content-box {
-            padding: 6px 8px;
+            padding: 8px 10px;
             background: var(--bg);
             border-radius: 4px;
-            font-size: 0.85rem;
+            font-size: 0.88rem;
             word-break: break-word;
+            cursor: pointer;
+            transition: background 0.15s ease;
+            position: relative;
+        }
+
+        .content-box:hover {
+            background: #f1f5f9;
         }
 
         .content-box strong {
             display: block;
-            font-size: 0.7rem;
+            font-size: 0.72rem;
             color: var(--text-muted);
-            margin-bottom: 2px;
+            margin-bottom: 4px;
+            pointer-events: none;
+        }
+
+        .box-text.clamped {
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .expand-hint {
+            display: block;
+            font-size: 0.7rem;
+            color: var(--primary);
+            margin-top: 4px;
+            font-weight: 500;
+            user-select: none;
         }
 
         .empty-hint {
             text-align: center;
             color: var(--text-muted);
-            font-size: 0.85rem;
-            padding: 20px;
+            font-size: 0.9rem;
+            padding: 36px 0;
+            background: var(--surface);
+            border-radius: var(--radius);
+            border: 1px dashed var(--border);
         }
     </style>
 </head>
@@ -321,76 +434,95 @@
         <button id="btn-export-md" class="btn-export">匯出 Markdown</button>
     </header>
 
-    <section class="card">
-        <form id="review-form">
-            <div class="form-group">
-                <label>題型 (Part)</label>
-                <div class="btn-group" id="part-selector">
-                    <button type="button" class="btn-select" data-val="Part 1">Part 1</button>
-                    <button type="button" class="btn-select" data-val="Part 2">Part 2</button>
-                    <button type="button" class="btn-select active" data-val="Part 3">Part 3</button>
-                    <button type="button" class="btn-select" data-val="Part 4">Part 4</button>
+    <main class="main-layout">
+        <!-- 左欄：輸入表單 -->
+        <aside class="left-panel">
+            <section class="card">
+                <form id="review-form">
+                    <div class="form-group">
+                        <div class="label-row"><label>題型 (Part)</label></div>
+                        <div class="btn-group" id="part-selector">
+                            <button type="button" class="btn-select" data-val="Part 1">Part 1</button>
+                            <button type="button" class="btn-select" data-val="Part 2">Part 2</button>
+                            <button type="button" class="btn-select active" data-val="Part 3">Part 3</button>
+                            <button type="button" class="btn-select" data-val="Part 4">Part 4</button>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="label-row"><label>錯誤類型 (3秒判定)</label></div>
+                        <div class="btn-group" id="type-selector">
+                            <button type="button" class="btn-select active" data-val="A">A 聲音盲點</button>
+                            <button type="button" class="btn-select" data-val="B">B 轉譯延遲</button>
+                            <button type="button" class="btn-select" data-val="C">C 節奏失誤</button>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="label-row">
+                            <label for="context-input">題號 / 情境</label>
+                            <span class="char-counter" id="context-count">0/100</span>
+                        </div>
+                        <input type="text" id="context-input" maxlength="100" placeholder="例：Q32-34 辦公室設備故障" required autocomplete="off">
+                    </div>
+
+                    <div class="form-group">
+                        <div class="label-row">
+                            <label for="obstacle-input">聽力阻礙點 (原音 / 混淆處)</label>
+                            <span class="char-counter" id="obstacle-count">0/300</span>
+                        </div>
+                        <input type="text" id="obstacle-input" maxlength="300" placeholder="例：copier's jammed (連音弱讀沒聽出)" required autocomplete="off">
+                    </div>
+
+                    <div class="form-group">
+                        <div class="label-row">
+                            <label for="fix-input">正確替換 / 盲點修正</label>
+                            <span class="char-counter" id="fix-count">0/300</span>
+                        </div>
+                        <input type="text" id="fix-input" maxlength="300" placeholder="例：malfunction (影印機故障)" required autocomplete="off">
+                    </div>
+
+                    <button type="submit" class="btn-submit">一鍵儲存記錄</button>
+                </form>
+            </section>
+        </aside>
+
+        <!-- 右欄：篩選與列表檢討區 -->
+        <section class="right-panel">
+            <div class="filter-section">
+                <!-- 日期範圍篩選 -->
+                <div class="date-range-container">
+                    <div class="date-inputs">
+                        <div class="date-field">
+                            <span>起始日期 (台灣時間)</span>
+                            <input type="date" id="start-date-filter">
+                        </div>
+                        <div class="date-field">
+                            <span>結束日期 (台灣時間)</span>
+                            <input type="date" id="end-date-filter">
+                        </div>
+                    </div>
+                    <div class="date-actions">
+                        <button type="button" id="btn-clear-date" class="btn-clear-date">清除日期範圍</button>
+                    </div>
+                </div>
+
+                <!-- 快速分類標籤列 -->
+                <div class="filter-tags-bar">
+                    <button class="filter-tag active" data-filter="ALL">全部顯示</button>
+                    <button class="filter-tag" data-filter="A">A 聲音盲點</button>
+                    <button class="filter-tag" data-filter="B">B 轉譯延遲</button>
+                    <button class="filter-tag" data-filter="C">C 節奏失誤</button>
+                    <button class="filter-tag" data-filter="Part 3">Part 3</button>
+                    <button class="filter-tag" data-filter="Part 4">Part 4</button>
                 </div>
             </div>
 
-            <div class="form-group">
-                <label>錯誤類型 (3秒判定)</label>
-                <div class="btn-group" id="type-selector">
-                    <button type="button" class="btn-select active" data-val="A">A 聲音盲點</button>
-                    <button type="button" class="btn-select" data-val="B">B 轉譯延遲</button>
-                    <button type="button" class="btn-select" data-val="C">C 節奏失誤</button>
-                </div>
+            <div id="logs-container">
+                <div class="empty-hint">讀取中...</div>
             </div>
-
-            <div class="form-group">
-                <label for="context-input">題號 / 情境</label>
-                <input type="text" id="context-input" placeholder="例：Q32-34 辦公室設備故障" required>
-            </div>
-
-            <div class="form-group">
-                <label for="obstacle-input">聽力阻礙點 (原音 / 混淆處)</label>
-                <input type="text" id="obstacle-input" placeholder="例：copier's jammed (連音弱讀沒聽出)" required>
-            </div>
-
-            <div class="form-group">
-                <label for="fix-input">正確替換 / 盲點修正</label>
-                <input type="text" id="fix-input" placeholder="例：malfunction (影印機故障)" required>
-            </div>
-
-            <button type="submit" class="btn-submit">一鍵儲存記錄</button>
-        </form>
-    </section>
-
-    <div class="filter-section">
-        <div class="date-range-container">
-            <div class="date-inputs">
-                <div class="date-field">
-                    <span>起始日期 (台灣時間)</span>
-                    <input type="date" id="start-date-filter">
-                </div>
-                <div class="date-field">
-                    <span>結束日期 (台灣時間)</span>
-                    <input type="date" id="end-date-filter">
-                </div>
-            </div>
-            <div class="date-actions">
-                <button type="button" id="btn-clear-date" class="btn-clear-date">清除日期範圍</button>
-            </div>
-        </div>
-
-        <div class="filter-tags-bar">
-            <button class="filter-tag active" data-filter="ALL">全部顯示</button>
-            <button class="filter-tag" data-filter="A">A 聲音盲點</button>
-            <button class="filter-tag" data-filter="B">B 轉譯延遲</button>
-            <button class="filter-tag" data-filter="C">C 節奏失誤</button>
-            <button class="filter-tag" data-filter="Part 3">Part 3</button>
-            <button class="filter-tag" data-filter="Part 4">Part 4</button>
-        </div>
-    </div>
-
-    <section id="logs-container">
-        <div class="empty-hint">讀取中...</div>
-    </section>
+        </section>
+    </main>
 </div>
 
 <script>
@@ -412,6 +544,25 @@
     const endDateInput = document.getElementById('end-date-filter');
     const btnClearDate = document.getElementById('btn-clear-date');
     const btnExportMd = document.getElementById('btn-export-md');
+
+    // 動態字數計數器綁定
+    const contextInput = document.getElementById('context-input');
+    const obstacleInput = document.getElementById('obstacle-input');
+    const fixInput = document.getElementById('fix-input');
+
+    const contextCount = document.getElementById('context-count');
+    const obstacleCount = document.getElementById('obstacle-count');
+    const fixCount = document.getElementById('fix-count');
+
+    contextInput.addEventListener('input', () => {
+        contextCount.textContent = `${contextInput.value.length}/100`;
+    });
+    obstacleInput.addEventListener('input', () => {
+        obstacleCount.textContent = `${obstacleInput.value.length}/300`;
+    });
+    fixInput.addEventListener('input', () => {
+        fixCount.textContent = `${fixInput.value.length}/300`;
+    });
 
     partButtons.forEach(btn => {
         btn.addEventListener('click', () => {
@@ -469,9 +620,6 @@
 
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
-        const contextInput = document.getElementById('context-input');
-        const obstacleInput = document.getElementById('obstacle-input');
-        const fixInput = document.getElementById('fix-input');
 
         const payload = {
             part: selectedPart,
@@ -487,16 +635,33 @@
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)
             });
-            if (!res.ok) throw new Error();
+
+            if (!res.ok) {
+                const errorData = await res.json().catch(() => null);
+                let message = '儲存失敗';
+                if (errorData && errorData.detail) {
+                    if (Array.isArray(errorData.detail)) {
+                        message += '：' + errorData.detail.map(d => d.msg).join('; ');
+                    } else {
+                        message += '：' + errorData.detail;
+                    }
+                }
+                alert(message);
+                return;
+            }
+
             const savedItem = await res.json();
             logs.unshift(savedItem);
 
             contextInput.value = '';
             obstacleInput.value = '';
             fixInput.value = '';
+            contextCount.textContent = '0/100';
+            obstacleCount.textContent = '0/300';
+            fixCount.textContent = '0/300';
             renderLogs();
         } catch (err) {
-            alert('儲存失敗，請確認後端連線狀態。');
+            alert('連線失敗，請確認後端伺服器是否正常運行。');
         }
     });
 
@@ -510,6 +675,24 @@
             alert('刪除失敗。');
         }
     }
+
+    // 展開 / 收合控制函數
+    window.toggleTextClamp = function(element) {
+        const textTarget = element.classList.contains('log-title') 
+            ? element 
+            : element.querySelector('.box-text');
+        const hintTarget = element.querySelector('.expand-hint');
+
+        if (!textTarget) return;
+
+        if (textTarget.classList.contains('clamped')) {
+            textTarget.classList.remove('clamped');
+            if (hintTarget) hintTarget.textContent = '點選收合 ▲';
+        } else {
+            textTarget.classList.add('clamped');
+            if (hintTarget) hintTarget.textContent = '點選展開 ▼';
+        }
+    };
 
     function getFilteredLogs() {
         return logs.filter(item => {
@@ -547,27 +730,35 @@
             const typeLabel = item.error_type === 'A' ? '聲音盲點' : (item.error_type === 'B' ? '轉譯延遲' : '節奏失誤');
 
             return `
-                <div class="log-item">
-                    <div class="log-header">
-                        <div class="log-tags">
+                <article class="log-item">
+                    <div class="log-topbar">
+                        <div class="log-badges">
                             <span class="badge badge-part">${item.part}</span>
                             <span class="badge ${badgeClass}">${item.error_type} ${typeLabel}</span>
-                            <span style="font-size: 0.8rem; font-weight: 600;">${item.context_info}</span>
+                        </div>
+                        <div class="log-meta">
                             <span class="time-label">${item.created_at}</span>
+                            <button class="btn-del" onclick="event.stopPropagation(); deleteLog(${item.id})">刪除</button>
                         </div>
-                        <button class="btn-del" onclick="deleteLog(${item.id})">刪除</button>
                     </div>
+
+                    <div class="log-title clamped" onclick="toggleTextClamp(this)">
+                        ${item.context_info}
+                    </div>
+
                     <div class="log-content">
-                        <div class="content-box">
+                        <div class="content-box" onclick="toggleTextClamp(this)">
                             <strong>聽力阻礙點</strong>
-                            ${item.obstacle_point}
+                            <div class="box-text clamped">${item.obstacle_point}</div>
+                            <span class="expand-hint">點選展開 ▼</span>
                         </div>
-                        <div class="content-box">
+                        <div class="content-box" onclick="toggleTextClamp(this)">
                             <strong>正確替換 / 盲點修正</strong>
-                            ${item.correction_fix}
+                            <div class="box-text clamped">${item.correction_fix}</div>
+                            <span class="expand-hint">點選展開 ▼</span>
                         </div>
                     </div>
-                </div>
+                </article>
             `;
         }).join('');
     }
@@ -609,7 +800,6 @@
         const blob = new Blob([md], { type: 'text/markdown;charset=utf-8;' });
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
-        
         const fileDate = exportTimeStr.split(' ')[0].replace(/\//g, '-');
         a.href = url;
         a.download = `toeic_review_${fileDate}.md`;
