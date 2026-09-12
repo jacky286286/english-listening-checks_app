@@ -1,7 +1,7 @@
 services:
   toeic-app:
     build: .
-    container_name: toeic-review-app
+    container_name: listening-records-app
     restart: unless-stopped
     ports:
       - "8000:8000"
